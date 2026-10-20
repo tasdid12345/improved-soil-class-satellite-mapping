@@ -1,0 +1,30 @@
+{
+  "question": "Can a class-balanced LightGBM model with spectral-neighbourhood features beat a standard random forest at classifying land and soil surface classes from multispectral Sentinel-2-like pixels?",
+  "method": "Stratified 75/25 split (seed 42). Baseline: random forest on raw 36 features. Improved: class-balanced LightGBM on raw + 3x3 neighbourhood mean/std/band-ratio features, hyper-parameters tuned by 3-fold CV on the training split only. Test set used once; models run with seeds 42-44.",
+  "dataset": {
+    "name": "OpenML 182 Statlog Landsat Satellite",
+    "source_url": "https://www.openml.org/d/182",
+    "n_rows": 6430,
+    "n_train": 4822,
+    "n_test": 1608,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "macro_f1",
+  "higher_is_better": true,
+  "baseline": "Standard RandomForestClassifier (500 trees, default settings, no class weighting) on the raw 36 spectral features.",
+  "improved": "Class-balanced LightGBM (class_weight=balanced) on raw features plus per-band 3x3 window mean, std and normalised band-ratio features; learning rate, leaves, min child samples, subsampling and column sampling tuned by 8-candidate randomized search with 3-fold CV on the training set.",
+  "metrics": {
+    "baseline_score": 0.9013870061995667,
+    "improved_score": 0.9230617233326729,
+    "improvement": 0.021674717133106203,
+    "baseline_score_std": 0.0011631859422547887,
+    "improved_score_std": 0.0009304509396350704,
+    "baseline_accuracy": 0.9195688225538973,
+    "improved_accuracy": 0.9359452736318407,
+    "baseline_balanced_accuracy": 0.8942675470002266,
+    "improved_balanced_accuracy": 0.919023566264185,
+    "lgbm_cv_macro_f1": 0.9119353618321849
+  },
+  "notes": "Stand-in for Sentinel-2 soil mapping, not the paper's HorusApp pipeline or data. Assumes OpenML features are pixel-major (9 pixels x 4 bands) for the neighbourhood features. Only the improved model is tuned; the baseline uses default RF settings, so the comparison is not budget-matched in tuning. Single fixed split, so test estimates have sampling uncertainty; std reflects model seed only. The openml package's own retry/timeout settings are used for download."
+}
