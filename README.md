@@ -19,6 +19,27 @@ python analysis.py
 
 Results: results are written to `results.json` (and a chart to `figures/`).
 
+## Results (latest run)
+
+On the OpenML Statlog Landsat Satellite dataset (single held-out test set, n=1,608), a standard random-forest pixel classifier reached 0.901 macro-F1, while my class-balanced LightGBM with 3x3 neighbourhood features reached 0.923, a modest gain of about 2.2 points.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.9014 |
+| improved_score | 0.9231 |
+| improvement | 0.02167 |
+| baseline_score_std | 0.001163 |
+| improved_score_std | 0.0009305 |
+| baseline_accuracy | 0.9196 |
+| improved_accuracy | 0.9359 |
+| baseline_balanced_accuracy | 0.8943 |
+| improved_balanced_accuracy | 0.919 |
+| lgbm_cv_macro_f1 | 0.9119 |
+
+Run on 2026-10-20. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Stand-in for Sentinel-2 soil mapping, not the paper's HorusApp pipeline or data. Assumes OpenML features are pixel-major (9 pixels x 4 bands) for the neighbourhood features. Only the improved model is tuned; the baseline uses default RF settings, so the comparison is not budget-matched in tuning. Single fixed split, so test estimates have sampling uncertainty; std reflects model seed only. The openml package's own retry/timeout settings are used for download.
+
 ## Reference
 
 This project is motivated by the following paper:
